@@ -106,7 +106,7 @@
                 <asp:Parameter Name="Product_Id" Type="Int32" />
             </UpdateParameters>
         </asp:SqlDataSource>
-        <asp:Button ID="Home" runat="server" OnClick="Home_Click" Text="Home" />
+        <asp:Button ID="Home" runat="server" OnClick="Btn_Home_Click" Text="Home" />
 
     </form>
 </body>

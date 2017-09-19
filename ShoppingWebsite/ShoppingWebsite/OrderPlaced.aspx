@@ -18,7 +18,7 @@
             <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
             <br />
         </div>
-        <asp:Button ID="Button1" runat="server" OnClick="ContinueShopping" Text="Continue Shopping" />
+        <asp:Button ID="Button1" runat="server" OnClick="Btn_ContinueShopping" Text="Continue Shopping" />
     </form>
 </body>
 </html>

@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
         <div>
         </div>
-            <asp:Button ID="Button1" runat="server" OnClick="Onclick" Text="PlaceOrder" />
+            <asp:Button ID="Button1" runat="server" OnClick="Btn_PlaceOrder" Text="PlaceOrder" />
     </form>
 
 

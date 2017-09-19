@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections;
+using System.Web.Configuration;
 
 namespace ShoppingWebsite
 {
@@ -15,20 +16,30 @@ namespace ShoppingWebsite
         Dictionary<string, float> cartItem;
         static SqlConnection connect;
         Dictionary<int, int> count;
-
+        static string connectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                connect = new SqlConnection(@"Data Source=TAVDESKRENT011;Initial Catalog=Products;User Id=sa;Password=test123!@#");
-                connect.Open();
-                SqlCommand command = new SqlCommand("select * from Products", connect);
-                SqlDataReader reader = command.ExecuteReader();
-                GridView1.DataSource = reader;
-                GridView1.DataBind();
-                connect.Close();
-            }
-        }
+            connectionString = WebConfigurationManager.ConnectionStrings["ProductsConnectionString"].ConnectionString;
+           // connectionString = "Data Source=TAVDESK043;Initial Catalog=Products;User Id=sa;Password=test123!@#";
+            using (connect=new SqlConnection(connectionString)) {
+                if (!IsPostBack)
+                {
+                    try
+                    {
+                       // connect = new SqlConnection(@"Data Source=TAVDESK043;Initial Catalog=Products;User Id=sa;Password=test123!@#");
+                        connect.Open();
+                        SqlCommand command = new SqlCommand("select * from Products", connect);
+                        SqlDataReader reader = command.ExecuteReader();
+                        GridView1.DataSource = reader;
+                        GridView1.DataBind();
+                    }
+                    catch (Exception ex)
+                    {
+                        Response.Write("<script>if(confirm('Something Bad happened, Please contact Administrator!!!!')){window.location=Home.aspx}</script>");
+                    }
+
+                }
+            } }
         protected void AddToCart(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "MoveToCart")
@@ -68,12 +79,11 @@ namespace ShoppingWebsite
                 }
             }
         }
-        protected void GoToCart(object sender, EventArgs e)
+        protected void Btn_GoToCart(object sender, EventArgs e)
         {
             Response.Redirect("Cart.aspx");
         }
-
-        protected void AdminLogIn_Click(object sender, EventArgs e)
+        protected void Btn_AdminLogIn(object sender, EventArgs e)
         {
             Response.Redirect("Admin.aspx");
         }

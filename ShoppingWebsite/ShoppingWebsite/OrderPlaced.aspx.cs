@@ -11,10 +11,17 @@ namespace ShoppingWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Label2.Text = HttpContext.Current.Session["orderId"].ToString();
+            try
+            {
+                Label2.Text = HttpContext.Current.Session["orderId"].ToString();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>if(confirm('Something Bad happened, Please contact Administrator!!!!')){window.location=Home.aspx}</script>");
+            }
         }
 
-        protected void ContinueShopping(object sender, EventArgs e)
+        protected void Btn_ContinueShopping(object sender, EventArgs e)
         {
             Response.Redirect("Home.aspx");
         }

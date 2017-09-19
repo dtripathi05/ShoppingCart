@@ -34,9 +34,9 @@
             </asp:GridView>
         </div>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Button ID="Button2" runat="server" Height="33px" OnClick="GoToCart" Text="ViewCart" Width="151px" />
+        <asp:Button ID="Button2" runat="server" Height="33px" OnClick="Btn_GoToCart" Text="ViewCart" Width="151px" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Button ID="AdminLogIn" runat="server" OnClick="AdminLogIn_Click" Text="AdminLogin" />
+        <asp:Button ID="AdminLogIn" runat="server" OnClick="Btn_AdminLogIn" Text="AdminLogin" />
     </form>
 </body>
 </html>

@@ -24,7 +24,8 @@ namespace ShoppingWebsite
         float total = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
-            connectionString = "Data Source=TAVDESKRENT011;Initial Catalog=Products;User Id=sa;Password=test123!@#";
+            connectionString = WebConfigurationManager.ConnectionStrings["ProductsConnectionString"].ConnectionString;
+           // connectionString = "Data Source=TAVDESK043;Initial Catalog=Products;User Id=sa;Password=test123!@#";
             cartItems = (Dictionary<string, float>)(HttpContext.Current.Session["cartItem"]);
             itemCount = (Dictionary<int, int>)Session["quantity"];
             KeyCollection coll = cartItems.Keys;
@@ -62,15 +63,9 @@ namespace ShoppingWebsite
             totalPrice.Text = "Total Price: ";
             this.Controls.Add(totalPrice);
             this.Controls.Add(amount);
-            //DataTable dt = new DataTable();
-            //dt.Columns.Add("ProductName", typeof(string));
-            //dt.Columns.Add("ProductId", typeof(int));
-            //dt.Columns.Add("Price", typeof(float));
-            //dt.Columns.Add("Quantity", typeof(int));
-
         }
 
-        protected void Onclick(object sender, EventArgs e)
+        protected void Btn_PlaceOrder(object sender, EventArgs e)
         {
             var orderId = SaveOrder();
             var cart = (Dictionary<string, float>)(HttpContext.Current.Session["cartItem"]);
@@ -90,22 +85,40 @@ namespace ShoppingWebsite
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                conn.Open();
-                string command = $"insert into OrderDetails values('{productId}','{orderId}','{quantity}','{price}')";
-                SqlCommand cmd = new SqlCommand(command, conn);
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    conn.Open();
+                    string command = $"insert into OrderDetails values('{productId}','{orderId}','{quantity}','{price}')";
+                    SqlCommand cmd = new SqlCommand(command, conn);
+                    cmd.ExecuteNonQuery();
+                }
+                    catch (Exception ex)
+                {
+                   Response.Write("<script>if(confirm('Something Bad happened, Please contact Administrator!!!!')){window.location=Home.aspx}</script>");
+                }
             }
         }
+
+
         private Guid SaveOrder()
         {
             var orderId = Guid.NewGuid();
             HttpContext.Current.Session["orderId"] = orderId;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                conn.Open();
-                string command = $"insert into [Order] values('{orderId}',CURRENT_TIMESTAMP,'{total}')";
-                SqlCommand cmd = new SqlCommand(command, conn);
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    conn.Open();
+                    string command = $"insert into [Order] values('{orderId}',CURRENT_TIMESTAMP,'{total}')";
+                    SqlCommand cmd = new SqlCommand(command, conn);
+                    cmd.ExecuteNonQuery();
+                    return orderId;
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("<script>if(confirm('Something Bad happened, Please contact Administrator!!!!')){window.location=Home.aspx}</script>");
+                }
+
                 return orderId;
             }
         }

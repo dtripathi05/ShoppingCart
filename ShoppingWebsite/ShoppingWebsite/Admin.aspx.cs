@@ -10,8 +10,6 @@ namespace ShoppingWebsite
 {
     public partial class CheckOut : System.Web.UI.Page
     {
-        
-
         protected void lbInsert_Click(object sender, EventArgs e)
         {
             SqlDataSource1.InsertParameters["Product_Name"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextName")).Text;
@@ -19,8 +17,7 @@ namespace ShoppingWebsite
             SqlDataSource1.InsertParameters["Quantity"].DefaultValue = ((TextBox)GridView1.FooterRow.FindControl("TextQuantity")).Text;
             SqlDataSource1.Insert();
         }
-
-        protected void Home_Click(object sender, EventArgs e)
+        protected void Btn_Home_Click(object sender, EventArgs e)
         {
             Response.Redirect("Home.aspx");
         }
